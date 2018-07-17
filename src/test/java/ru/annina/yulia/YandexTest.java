@@ -34,8 +34,10 @@ public class YandexTest {
         WebElement searchInput = browser.findElement(By.name("text"));
         searchInput.clear();
         searchInput.sendKeys("погода пенза");
-        WebElement fistSearchText = browser.findElement(By.className("suggest2-item__text"));
-        Assert.assertTrue(fistSearchText.getText().contains("пенза"), "О.Р. слово пенза в первой строке");
+        WebElement searchButton = browser.findElement(By.className("button_theme_websearch"));
+        searchButton.click();
+        WebElement firstLink = browser.findElement(By.cssSelector("[accesskey='1']"));
+        Assert.assertTrue(firstLink.getText().toLowerCase().contains("погода"), "О.Р. слово погода в первой строке результатов");
     }
 
     @AfterTest
