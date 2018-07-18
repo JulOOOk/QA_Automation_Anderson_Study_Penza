@@ -9,39 +9,25 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import ru.annina.yulia.pages.SearchPage;
 
 import java.util.concurrent.TimeUnit;
 
-public class YandexTest {
+public class YandexTest extends BaseTest {
 
-    WebDriver browser;
-
-    @BeforeSuite
-    public void beforeSuite() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
-    }
+    SearchPage page;
 
     @BeforeTest
+    @Override
     public void beforeTest() {
-        browser = new ChromeDriver();
-        browser.manage().window().maximize();
-        browser.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        super.beforeTest();
         browser.get("https://ya.ru/");
+        page = new SearchPage(browser);
     }
 
     @Test
     public void search() {
-        WebElement searchInput = browser.findElement(By.name("text"));
-        searchInput.clear();
-        searchInput.sendKeys("погода пенза");
-        WebElement searchButton = browser.findElement(By.className("button_theme_websearch"));
-        searchButton.click();
-        WebElement firstLink = browser.findElement(By.cssSelector("[accesskey='1']"));
-        Assert.assertTrue(firstLink.getText().toLowerCase().contains("погода"), "О.Р. слово погода в первой строке результатов");
-    }
-
-    @AfterTest
-    public void afterTest() {
-        browser.quit();
+        page.search("погода пенза");
+        Assert.assertTrue(page.getFirstLink().toLowerCase().contains("погода"), "О.Р. слово погода в первой строке результатов");
     }
 }
