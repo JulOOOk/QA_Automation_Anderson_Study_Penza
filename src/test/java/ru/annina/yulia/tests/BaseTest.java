@@ -1,10 +1,8 @@
-package ru.annina.yulia;
+package ru.annina.yulia.tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 import ru.annina.yulia.pages.SearchPage;
 
 import java.util.concurrent.TimeUnit;
@@ -18,15 +16,15 @@ public class BaseTest {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
     }
 
-    @BeforeTest
-    public void beforeTest() {
+    @BeforeClass
+    public void beforeClass() {
         browser = new ChromeDriver();
         browser.manage().window().maximize();
         browser.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     }
 
-    @AfterTest
-    public void afterTest() {
+    @AfterClass
+    public void afterClass() {
         browser.quit();
     }
 }
